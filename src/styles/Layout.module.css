@@ -30,11 +30,25 @@
     background-repeat: no-repeat;
     
     transform: translateX(200%);
-    animation: cloud_one 8.5s ease-in-out forwards infinite;
-       
+    animation: cloudAnimationOne 8.5s ease-in-out forwards infinite;
 }
 
-@keyframes cloud_one{
+.cloud_two {
+    background: url('/assets/image/cloud_2.png');
+    position: absolute;
+    top: 45%; left: 10%;
+    width: 180px;
+    height: 100px;
+    background-size: contain;
+    z-index: 40;
+    background-repeat: no-repeat;
+    
+    /* transform: translateX(200%); */
+    animation: cloudAnimationTwo 8.5s ease-in-out forwards infinite;
+}
+
+
+@keyframes cloudAnimationOne{
     0%{
         transform: translateX(-140%);
     }
@@ -43,6 +57,18 @@
     }
     100%{
         transform: translateX(-140%);
+    }
+}
+
+@keyframes cloudAnimationTwo{
+    0%{
+        transform: translateX(140%);
+    }
+    50%{
+        transform: translateX(-170%);
+    }
+    100%{
+        transform: translateX(140%);
     }
 }
 
