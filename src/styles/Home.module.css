@@ -4,4 +4,39 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: auto;
 }
+
+.title_page {
+    @apply text-4xl font-bold ;
+}
+
+.link{
+    @apply mt-5 px-10 py-2 rounded-md ;
+    @apply bg-indigo-500 text-gray-50;
+}
+
+.btnWrapper{
+    @apply flex justify-center;
+}
+
+.details_wrapper{
+    @apply flex flex-col justify-center items-center;
+}
+
+.signOutBtn{
+    @apply mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50;
+    
+}
+
+.linkProfile{
+    @apply mt-5 px-10 py-1 rounded-sm bg-indigo-500 bg-indigo-500 text-gray-50;
+}
+
+.userImage{
+    @apply w-20 h-20 rounded-full;
+}
+
+
+
+

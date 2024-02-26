@@ -1,8 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Layout from "@/layout/layout";
+import style from "../styles/Form.module.css";
+import Image from "next/image";
+import { HiFingerPrint, HiAtSymbol } from "react-icons/hi2";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useFormik } from "formik";
 
 const Login = () => {
+  const [isShowPass, setIsShowPass] = useState(false);
+
+  const validate = (values) => {
+    const errors = {};
+    if (values.email.length < 1) {
+      errors.email = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = "Invalid email address";
+    }
+    if (values.password.length < ``) {
+      errors.password = "Required";
+    }
+    return errors;
+  };
+
+  const onSubmit = async (values) => {
+    console.log({ values });
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate,
+    onSubmit,
+  });
+
+  const handleGoogleSignIn = () => {
+    signIn("google", { callbackUrl: "http://localhost:3000/" });
+  };
+
+  const handleGithubSignIn = () => {
+    signIn("github", { callbackUrl: "http://localhost:3000/" });
+  };
+
+  console.log(formik.errors.email);
+
   return (
     <Layout>
       <Head>
@@ -12,8 +56,116 @@ const Login = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="font-bold text-3xl text-black">Login</div>
+      <section className="flex flex-col gap-2">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col gap-5 w-3/4 mx-auto"
+        >
+          <TitleComp />
+          {formik.errors.email && (
+              <span className={style.error_message}> Email {formik.errors.email}</span>
+            )}
+          <InputComp
+            type="email"
+            placeholder="Masukan Email"
+            name="email"
+            id="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+          >
+            
+            <HiAtSymbol size={25} />{" "}
+          </InputComp>
+
+          <InputComp
+            type={isShowPass ? "text" : "password"}
+            placeholder="password"
+            name="password"
+            id="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+          >
+            <HiFingerPrint
+              size={25}
+              onClick={() => setIsShowPass(!isShowPass)}
+            />
+          </InputComp>
+
+          <div className="input-button">
+            <button type="submit" className={style.button}>
+              Login
+            </button>
+            <button
+              type="button"
+              onClick={handleGithubSignIn}
+              className={style.button_custom}
+            >
+              Sign In With Github
+              <Image
+                src={"/assets/image/github.svg"}
+                width="30"
+                height={30}
+              ></Image>
+            </button>
+            <button
+              type="button"
+              className={style.button_custom}
+              onClick={handleGoogleSignIn}
+            >
+              Sign In with Google{" "}
+              <Image
+                src={"/assets/image/google.svg"}
+                width="30"
+                height={30}
+              ></Image>
+            </button>
+          </div>
+        </form>
+        <div className="text-center text-gray-400 ">
+          don't have an account yet?{" "}
+          <Link href={"/register"}>
+            <p className="text-blue-700">Sign Up</p>
+          </Link>
+        </div>
+      </section>
     </Layout>
+  );
+};
+
+const TitleComp = () => {
+  return (
+    <div className="title">
+      <h1 className="text-4xl font-bold text-gray-800">Explore</h1>
+      <p className=" w-3/4 mt-4 mx-auto text-center text-gray-400">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam, aut.
+      </p>
+    </div>
+  );
+};
+
+const InputComp = ({
+  type,
+  placeholder,
+  name,
+  id,
+  value,
+  onChange,
+  children,
+}) => {
+  return (
+    <div className={style.input_group}>
+      <input
+        type={type}
+        placeholder={placeholder}
+        name={name}
+        id={id}
+        onChange={onChange}
+        value={value}
+        className={style.input_text}
+      />
+
+      <span className={style.input_icon}>{children}</span>
+    </div>
   );
 };
 
