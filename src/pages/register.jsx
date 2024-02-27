@@ -58,6 +58,12 @@ const Login = () => {
     onSubmit,
   });
 
+  const runPingMongoHandle = async () => {
+    const req = await fetch("/api/auth/pingmongo");
+    const res = await req.json();
+    console.log(res);
+  };
+
   return (
     <Layout>
       <Head>
@@ -73,6 +79,12 @@ const Login = () => {
           className="flex flex-col gap-5 w-3/4 mx-auto"
         >
           <TitleComp />
+          <button
+            className="text-black bg-indigo-500 px-4 py-1"
+            onClick={runPingMongoHandle}
+          >
+            Run Mongo
+          </button>
 
           <InputComp
             type="text"
