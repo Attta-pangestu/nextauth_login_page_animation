@@ -38,11 +38,11 @@ const Login = () => {
   });
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "http://localhost:3000/" });
+    signIn("google", { callbackUrl: "/" });
   };
 
   const handleGithubSignIn = () => {
-    signIn("github", { callbackUrl: "http://localhost:3000/" });
+    signIn("github", { callbackUrl: "/" });
   };
 
   console.log(formik.errors.email);
@@ -63,8 +63,11 @@ const Login = () => {
         >
           <TitleComp />
           {formik.errors.email && (
-              <span className={style.error_message}> Email {formik.errors.email}</span>
-            )}
+            <span className={style.error_message}>
+              {" "}
+              Email {formik.errors.email}
+            </span>
+          )}
           <InputComp
             type="email"
             placeholder="Masukan Email"
@@ -73,7 +76,6 @@ const Login = () => {
             value={formik.values.email}
             onChange={formik.handleChange}
           >
-            
             <HiAtSymbol size={25} />{" "}
           </InputComp>
 
