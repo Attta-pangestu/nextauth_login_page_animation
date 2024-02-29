@@ -6,9 +6,8 @@ import { signIn, useSession, signOut, getSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/dist/server/api-utils";
 
-export default function Home() {
-  const { data: session, status } = useSession();
-  console.log({ session, status });
+export default function Home({ session }) {
+  const { user } = session;
   return (
     <>
       <Head>
@@ -17,7 +16,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {status === "authenticated" ? <User user={session?.user} /> : <Guest />}
+      {user ? <User user={user} /> : <Guest />}
     </>
   );
 }
@@ -69,18 +68,20 @@ function User({ user }) {
   );
 }
 
-// export async function getServerSideProps({ req }) {
-//   const session = await getSession({ req });
-//   console.log(session);
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: { session },
-//   };
-// }
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+  console.log(session);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      session,
+    },
+  };
+}
