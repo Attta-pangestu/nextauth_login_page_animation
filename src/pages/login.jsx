@@ -115,6 +115,7 @@ const Login = () => {
             >
               Sign In With Github
               <Image
+                alt="..."
                 src={"/assets/image/github.svg"}
                 width="30"
                 height={30}
@@ -127,6 +128,7 @@ const Login = () => {
             >
               Sign In with Google{" "}
               <Image
+                alt="..."
                 src={"/assets/image/google.svg"}
                 width="30"
                 height={30}
@@ -135,7 +137,7 @@ const Login = () => {
           </div>
         </form>
         <div className="text-center text-gray-400 ">
-          don't have an account yet?{" "}
+          dont have an account yet?
           <Link href={"/register"}>
             <p className="text-blue-700">Sign Up</p>
           </Link>

@@ -28,9 +28,12 @@ function Guest() {
   return (
     <main className={style.main}>
       <h3 className={style.title_page}>Guest Homepage</h3>
-      <div className="flex justify-center">
+      <div className="flex flex-col  items-center justify-center">
         <Link href={"/login"} className={style.link}>
           Sign In
+        </Link>
+        <Link href={"/register"} className={style.link}>
+          Sign Up
         </Link>
       </div>
     </main>

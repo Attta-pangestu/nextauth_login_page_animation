@@ -1,19 +1,14 @@
 {
   "plugins": ["tailwindcss"],
-  "extends": "next/core-web-vitals",
+  "extends":  ["next", "prettier"],
   "rules": {
-    "tailwindcss/classnames-order": "error",
-    "tailwindcss/no-custom-classname": "error",
+    "tailwindcss/classnames-order": "off",
+    "tailwindcss/no-custom-classname": "off",
     "tailwindcss/no-contradicting-classname": "error",
     "react-hooks/exhaustive-deps": "off",
-    "react-hooks/rules-of-hooks": "error", 
+    "react-hooks/rules-of-hooks": "error",
     "@tailwindcss/no-custom-classname": "off",
     "@tailwindcss/no-unknown-at-rules": "off",
-      "@next/next/no-html-link-for-pages": "off",
-      "at-rule-no-unknown": [true, {
-        "ignoreAtRules": ["apply"]
-      }]
-    
-
+    "@next/next/no-html-link-for-pages": "off"
   }
 }

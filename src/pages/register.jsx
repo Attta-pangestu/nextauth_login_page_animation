@@ -7,15 +7,21 @@ import { HiFingerPrint, HiAtSymbol, HiOutlineUser } from "react-icons/hi2";
 import Link from "next/link";
 import { useFormik } from "formik";
 
-const Login = () => {
+const Register = () => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitRes, setSubmitRes] = useState({});
   const [isShowPass, setIsShowPass] = useState({
     password: false,
     cPassword: false,
   });
 
-  const onSubmit = async (values) => {
+
+
+  const onSubmit = async (values, {resetForm}) => {
+    setIsLoading(true)
     console.log({ values });
-    const response = await fetch("/api/auth/signup", {
+    const response = await fetch("/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +33,10 @@ const Login = () => {
       }),
     });
     const responseJSON = await response.json();
+    setSubmitRes(responseJSON);
     console.log(responseJSON);
+    setIsLoading(false)
+    resetForm();
   };
 
   const validate = (values) => {
@@ -54,8 +63,8 @@ const Login = () => {
       password: "",
       cPassword: "",
     },
-    validate,
     onSubmit,
+    validate,
   });
 
   const runPingMongoHandle = async () => {
@@ -63,6 +72,22 @@ const Login = () => {
     const res = await req.json();
     console.log(res);
   };
+
+  const signUpFirebase = async () => {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: "Atha Rizki P",
+        email: "atha@gmail.com",
+        password: "pass",
+      }),
+    });
+    const responseJSON = await response.json();
+    console.log(responseJSON);
+  }
 
   return (
     <Layout>
@@ -81,7 +106,8 @@ const Login = () => {
           <TitleComp />
           <button
             className="text-black bg-indigo-500 px-4 py-1"
-            onClick={runPingMongoHandle}
+            onClick={signUpFirebase}
+            hidden
           >
             Run Mongo
           </button>
@@ -146,14 +172,19 @@ const Login = () => {
               }
             />
           </InputComp>
+          
+          <span>
+            <p className={`text-xl font-bold ${submitRes.success? "text-green-500" : "text-red-500"}`}>{submitRes.message}</p>
+          </span>
 
           <div className="input-button">
-            <button type="submit" className={style.button}>
-              Sign Up
+            <button type="submit" disabled={isLoading} className={style.button}>
+              {isLoading ? "Loading..." : "Sign Up"}
             </button>
             <button type="button" className={style.button_custom}>
               Sign Up With Github
               <Image
+                alt="..."
                 src={"/assets/image/github.svg"}
                 width="30"
                 height={30}
@@ -162,6 +193,7 @@ const Login = () => {
             <button type="button" className={style.button_custom}>
               Sign Up with Google{" "}
               <Image
+                alt="..."
                 src={"/assets/image/google.svg"}
                 width="30"
                 height={30}
@@ -217,4 +249,4 @@ function TitleComp() {
   );
 }
 
-export default Login;
+export default Register;

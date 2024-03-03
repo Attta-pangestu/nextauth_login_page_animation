@@ -5,13 +5,15 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBtXHYcXQPLR6fd66C1htEGNM4ZRgJzGi0",
-  authDomain: "nike-store-clone-nextjs.firebaseapp.com",
-  projectId: "nike-store-clone-nextjs",
-  storageBucket: "nike-store-clone-nextjs.appspot.com",
-  messagingSenderId: "777301070868",
-  appId: "1:777301070868:web:641c48a23b08ceeec98301",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+export default app ;
