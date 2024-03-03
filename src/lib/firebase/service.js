@@ -4,12 +4,20 @@ import bcrypt from 'bcrypt';
 
 const fireStoreApp = getFirestore(app);
 
+export async function signInUser(userInput) {
+    const userRegister = await getRegisteredUserByEmail(userInput.email);
+    return userRegister[0];
+}
+
 export  async function signUpUser(user, callback) {
     if((await getRegisteredUserByEmail(user.email)).length > 0) callback( {success: false ,message: "Email already registered" });
     else{
         // manipulate data
         if(!user.role) user.role = "user";
         user.password = await bcrypt.hash(user.password, 10);
+        const randomNum = Math.floor(Math.random() * 100) + 1;
+        user.image = `https://avatar.iran.liara.run/public/${randomNum}`
+
         console.log(user)
         await addDoc(collection(fireStoreApp, 'users'), user).then(() => {
            callback(  {success: true, message: "User created successfully"})

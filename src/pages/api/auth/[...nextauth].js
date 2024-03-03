@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
+import { signInUser } from "@/lib/firebase/service";
+import bcrypt from 'bcrypt'
 
 const authOptions = {
   session: {
@@ -28,22 +30,17 @@ const authOptions = {
 
       async authorize(credentials) {
         const { email, password } = credentials;
-
+        
         try {
           // ... (Implement user fetching, replace with actual user data)
-          const user = {
-            name: "Pengguna",
-            email: "aku@mail.com",
-            image:
-              "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
-            username: "aku",
-            password: "pass",
-          };
 
-          if (email === user.email && password === user.password) {
-            console.log(user);
-            return user;
-          } else {
+          const registeredUser = await signInUser({email, password})
+          console.log(registeredUser)
+          if(!registeredUser) return null;
+          const isMatchPass = await bcrypt.compare(password, registeredUser.password) 
+          console.log(isMatchPass)
+          if(registeredUser.email === email && isMatchPass) return registeredUser;
+          else {
             return null;
           }
         } catch (error) {

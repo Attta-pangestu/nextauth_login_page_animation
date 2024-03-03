@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 
+
 const Login = () => {
   const [isShowPass, setIsShowPass] = useState(false);
   const { push } = useRouter();
@@ -35,7 +36,6 @@ const Login = () => {
         password,
       });
       console.log(response);
-      push("/");
     } catch (err) {
       console.log(err);
     }
