@@ -5,11 +5,13 @@ import style from "../styles/Form.module.css";
 import Image from "next/image";
 import { HiFingerPrint, HiAtSymbol } from "react-icons/hi2";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { useFormik } from "formik";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [isShowPass, setIsShowPass] = useState(false);
+  const { push } = useRouter();
 
   const validate = (values) => {
     const errors = {};
@@ -25,7 +27,18 @@ const Login = () => {
   };
 
   const onSubmit = async (values) => {
-    console.log({ values });
+    const { email, password } = values;
+    try {
+      const response = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+      console.log(response);
+      push("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const formik = useFormik({
@@ -44,8 +57,6 @@ const Login = () => {
   const handleGithubSignIn = () => {
     signIn("github", { callbackUrl: "/" });
   };
-
-  console.log(formik.errors.email);
 
   return (
     <Layout>

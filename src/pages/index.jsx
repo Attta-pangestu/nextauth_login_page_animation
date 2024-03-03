@@ -6,8 +6,10 @@ import { signIn, useSession, signOut, getSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/dist/server/api-utils";
 
-export default function Home({ session }) {
-  const { user } = session;
+export default function Home({ user }) {
+  // const status = "loading";
+  // const { data, status } = useSession();
+
   return (
     <>
       <Head>
@@ -73,15 +75,18 @@ export async function getServerSideProps({ req }) {
   console.log(session);
   if (!session) {
     return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
+      props: { user: null },
     };
+    //   return {
+    //     redirect: {
+    //       destination: "/login",
+    //       permanent: false,
+    //     },
+    //   };
   }
   return {
     props: {
-      session,
+      user: session.user,
     },
   };
 }
